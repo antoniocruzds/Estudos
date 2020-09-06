@@ -1,0 +1,75 @@
+                                                        ## Aula 08/11/2019 ##
+
+### C <- CRIAR VETOR PARA STRIMES
+ds <- c("segunda", "terça", "quarta", "quinta", "sexta")
+
+### PASTE <- FUNÇÃO PARA COLAR STRIMES
+aniversario <- paste("Meu aniversario é", "08/10", sep = " ") #colar "08/10" depois de "Meu aniversario é" seoarado por " "
+
+### GSUB <-  SUBSTITUIR STRIMES
+frase <- ("Neto é bunito")
+frase <- gsub("bunito", "muuuito perfeito cara", frase) #substitua "bunito" por "muuuuito perfeit cara" em frase
+
+#NO R PODEMOS REPETIR CODIGOS UTILIZANDO: 
+
+### FOR <- REPETIR (pra salvar tem que criar um df antes)
+for(variavel in conjunto_de_valores){
+  #dentro da chave a variavel vai repetir
+}
+#ex: de 1 a 15
+  for (i in 1:5) {
+  print(i)
+}
+#ex: dias da semana:
+for (i in ds) {
+  ds_final <- paste(i,"-feira", sep = "")
+  print(ds_final)
+}
+#ex: tabuada do 7
+for (i in 1:10) {
+  print(i * 7)
+}
+#EX:
+nomes <- c("Neto", "Leo", "Maria", "Bea")
+pergunta <- (", Como você está se sentido hoje?")
+for (i in nomes) {
+  pergunta_final <- paste(i,pergunta, sep = "")
+  print(pergunta_final)
+}
+
+                                       ## RASPANDO OS DADOS DE TODAS AS 28 PAGINAS DO SITE LAB404 ##
+
+library(rvest) #Ativando o rvest
+library(tidyverse) #Ativando o tidyverse
+
+urlbase <- ("http://www.lab404.ufba.br/page/xxx/") #baixando os dados do site
+dados <- data.frame() #criando um df vazio
+
+for (i in 1:28){  #repetindo o codigo nas 28 pag
+  url <- gsub("xxx",i, urlbase)
+  print(url)
+  #ler o HTML da pagina em loop
+  url <- read_html(url)
+  titulo <- url %>% html_nodes(xpath = "//h2/a") %>%
+    html_text()
+  data <- url %>% html_nodes(xpath = "//time") %>% 
+    html_text()
+  autor <- url %>% html_nodes(xpath = "//span/span/a") %>% 
+    html_text()
+  links_post <- url %>% html_nodes(xpath ="//h2/a") %>% 
+    xml_attr("href")
+  dados <- rbind(dados, cbind(titulo, data, autor, links_post))
+}
+
+num_autores <- dados %>%  #contando o número de post por autor
+count(autor)
+
+dados$links_post #para visualizar os links é com $
+links <- dados$links_post #criando um objeto com os
+dados_post <- data.frame()
+for (j in links) {
+  print(j)
+  url_conteudo <- read_html(j)
+  posts <- url_conteudo %>% html_nodes(css = ".entry-content") %>% html_text()
+  dados_post <- rbind(dados_post, cbind(posts))
+}
