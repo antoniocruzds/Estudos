@@ -1,1 +1,1 @@
-
+tipos de variáveis
