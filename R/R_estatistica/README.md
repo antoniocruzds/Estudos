@@ -1,1 +1,1 @@
-meus estudos de r para estatistica
+meus estudos de r para estatistica.
