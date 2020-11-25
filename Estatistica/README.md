@@ -1,2 +1,2 @@
 
-Meus estudos sobre Estatistica
+Meus estudos sobre Estatistica.
