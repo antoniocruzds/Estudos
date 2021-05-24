@@ -1,1 +1,2 @@
-# Estudos sobre web scraping
+# Estudos sobre Web Scraping
+Anotações, códigos, e exercicios 
